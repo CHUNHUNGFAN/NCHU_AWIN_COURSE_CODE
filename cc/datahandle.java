@@ -21,13 +21,21 @@ public class datahandle {
         StringTokenizer tokenizer = new StringTokenizer(line);
         String s="";
 	double threshold=0.1;
-	double time;
+	double time=0;
+	String read="-1";
 	while (tokenizer.hasMoreTokens()) {
 		double total=0,maxVal=-1,minVal=-1;
 		int count=0;
-		String read = tokenizer.nextToken();
+		if(read =="-1")
+		{
+			read = tokenizer.nextToken();	
+			context.write(new Text(read),new DoubleWritable(time));
+		}
+		else
+		{
+		 read = tokenizer.nextToken();
 		
-	      while(line.matches(",,"))
+	      	 while(line.matches(",,"))
 	           line = line.replaceAll(",,",",0,");
 
 		StringTokenizer token_ = new StringTokenizer(read,",");
@@ -79,6 +87,7 @@ public class datahandle {
 		}
             	context.write(new Text(s),new DoubleWritable(time));
 		s="";
+		}
 	}
     }
  } 
